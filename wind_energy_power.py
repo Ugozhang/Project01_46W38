@@ -11,47 +11,57 @@ def is_positive_number(s):
     except ValueError:
         return False
 
-def input_validation(ws,p_rated,ws_cin,ws_rated,ws_cout,mode="linear"):
+def input_validation(user_input):
     """
     function for checking input data format
     """
 
-    # variant counting the correct numbers
-    chk_count = 0
+    # split
+    parts = [x.strip() for x in user_input.split(",") if x.strip != ""]
+    # elements counting check
+    if len(parts) not in (5,6):
+        print(f"Expected 5 or 6 values, but got {len(parts)}.")
+        return False
 
-    # check each variants
-    if is_positive_number(ws):
-        chk_count += 1
     else:
-        printf(f"Wind speed value: {ws} is invalid format.\n")
-    
-    if is_positive_number(p_rated):
-        chk_count += 1
-    else:
-        printf(f"Rated power value: {p_rated} is invalid format.\n")
-    
-    if is_positive_number(ws_cin):
-        chk_count += 1
-    else:
-        printf(f"Cut-in wind speed value: {ws_cin} is invalid format.\n")
-    
-    if is_positive_number(ws_rated):
-        chk_count += 1
-    else:
-        printf(f"Rated wind speed value: {ws_rated} is invalid format.\n")
-    
-    if is_positive_number(ws_cout):
-        chk_count += 1
-    else:
-        printf(f"Cut-out wind speed value: {ws_cout} is invalid format.\n")
-    
-    if mode == "linear" or mode == "l" or mode == "L" or mode == "cubic" or mode == "c" or mode == "C":
-        chk_count += 1
-    else:
-        printf(f"Interpolation option:{mode} is invalid format.\n")
+        # variant counting the correct numbers
+        chk_count = 0
 
-    # chk_count must be as same as the input counts (.__code__.co_argcount for check parameters counts)
-    if chk_count == input_validation.__code__.co_argcount:
+        ## ==== check each variants ====
+        if is_positive_number(parts[0]):
+            chk_count += 1
+        else:
+            print(f"Wind speed value: {parts[0]} is invalid format.")
+        
+        if is_positive_number(parts[1]):
+            chk_count += 1
+        else:
+            print(f"Rated power value: {parts[1]} is invalid format.")
+        
+        if is_positive_number(parts[2]):
+            chk_count += 1
+        else:
+            print(f"Cut-in wind speed value: {parts[2]} is invalid format.")
+        
+        if is_positive_number(parts[3]):
+            chk_count += 1
+        else:
+            print(f"Rated wind speed value: {parts[3]} is invalid format.")
+        
+        if is_positive_number(parts[4]):
+            chk_count += 1
+        else:
+            print(f"Cut-out wind speed value: {parts[4]} is invalid format.")
+        
+        # mode input validation
+        if len(parts)==6:
+            if parts[5] not in ('linear','L','l','cubic','C','c'):
+                print(f"Interpolation option:{parts[5]} is invalid format.")
+                return False
+        ## =======================================
+
+    # chk_count must be 5 for each numeric parameters check
+    if chk_count == 5:
         return True
     else:
         return False
