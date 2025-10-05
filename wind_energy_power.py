@@ -68,7 +68,7 @@ def input_validation(user_input):
 
 def P_linear_mode(ws,p_rated,ws_cin,ws_rated,ws_cout):
     # linear mode power output equation
-    return ( ws - ws_cin / ws_rated - ws_cin ) * p_rated
+    return ( (ws - ws_cin) / (ws_rated - ws_cin) ) * p_rated
 
 def P_cubic_mode(ws,p_rated,ws_cin,ws_rated,ws_cout):
     # cubic mode power output equation
@@ -80,14 +80,14 @@ def Power_Output(ws,p_rated,ws_cin,ws_rated,ws_cout,mode="linear"):
     """
     #detect the mode first; then if ws less than ws_rated output =0; greater >> output = p_rated; within >> call mode_output function
     if mode == "linear" or mode == "l" or mode == "L":
-        if ws < ws_cin:
+        if ws < ws_cin or ws >= ws_cout :
             return 0
         elif ws >=ws_rated:
             return p_rated
         else:
             return P_linear_mode(ws,p_rated,ws_cin,ws_rated,ws_cout)
     elif mode == "cubic" or mode == "c" or mode == "C":
-        if ws < ws_cin:
+        if ws < ws_cin or ws >= ws_cout:
             return 0
         elif ws >=ws_rated:
             return p_rated
